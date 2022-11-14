@@ -112,6 +112,7 @@ class Brick(GameObject):
 class Game(tk.Frame):
     def __init__(self, master):
         super(Game, self).__init__(master)
+        t1 = threading.Thread(target = self.cam_test,args=(10,))
         self.lives = 3
         self.width = 610
         self.height = 400
@@ -137,6 +138,8 @@ class Game(tk.Frame):
                          lambda _: self.paddle.move(-10))
         self.canvas.bind('<Right>',
                          lambda _: self.paddle.move(10))
+        t1.start()
+        self.cam_test()
 
     def setup_game(self):
            self.add_ball()
