@@ -60,6 +60,8 @@ class Ball(GameObject):
             if isinstance(game_object, Brick):
                 game_object.hit()
 
+def cancro_terminal():
+    print("wy are u gae")
 
 class Paddle(GameObject):
     def __init__(self, canvas, x, y):
