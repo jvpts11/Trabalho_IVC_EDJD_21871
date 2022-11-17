@@ -5,7 +5,7 @@ def cv_setup(game):
     cv_update(game)
 
 def cv_init(game):
-    game.cap = cv2.VideoCapture()
+    game.cap = cv2.VideoCapture(0)
     if not game.cap.isOpened():
         game.cap.open(-1)
 
@@ -13,9 +13,9 @@ def cv_init(game):
 def cv_update(game):
     cap = game.cap
     if not cap.isOpened():
-        cap.open(1)
+        cap.open(-1)
     ret, image = cap.read()
-    image = image[:, ::1, :]
+    image = image[:, ::-1, :]
     cv_process(image)
     cv_output(image)
     # game.paddle.move(-1)
