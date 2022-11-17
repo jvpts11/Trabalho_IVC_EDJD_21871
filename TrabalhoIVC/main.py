@@ -1,9 +1,5 @@
-import cv2 as cv2
-import numpy as np
-import os
-import matplotlib
 import tkinter as tk
-import threading
+from aux_cv import *
 
 class GameObject(object):
     def __init__(self, canvas, item):
@@ -114,7 +110,6 @@ class Brick(GameObject):
 class Game(tk.Frame):
     def __init__(self, master):
         super(Game, self).__init__(master)
-        t1 = threading.Thread(target = self.cam_test,args=(10,))
         self.lives = 3
         self.width = 610
         self.height = 400
@@ -140,8 +135,7 @@ class Game(tk.Frame):
                          lambda _: self.paddle.move(-10))
         self.canvas.bind('<Right>',
                          lambda _: self.paddle.move(10))
-        t1.start()
-        self.cam_test()
+        cv_setup(self)
 
     def setup_game(self):
            self.add_ball()
@@ -149,13 +143,6 @@ class Game(tk.Frame):
            self.text = self.draw_text(300, 200,
                                       'Press Space to start')
            self.canvas.bind('<space>', lambda _: self.start_game())
-
-    def cam_test(self):
-        cap = cv2.VideoCapture()
-        if not cap.isOpened():
-            cap.open(0)
-        ret, image = cap.read()
-        cv2.imshow("Raw Image", image)
 
     def add_ball(self):
         if self.ball is not None:
@@ -217,20 +204,3 @@ if __name__ == '__main__':
     root.title('Hello, Jarvis!')
     game = Game(root)
     game.mainloop()
-
-
-#teste das cenas
-#cap = cv2.VideoCapture()
-
-#while True:
-    #if not cap.isOpened():
-        #cap.open(0)
-    #ret, image = cap.read()
-    #cv2.imshow("Image", image)
-
-    #cv2.waitKey(1)
-
-#if cap.isOpened():
-    #cap.release
-
-#cv2.destroyAllWindows()
