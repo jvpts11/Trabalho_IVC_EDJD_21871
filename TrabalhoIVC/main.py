@@ -202,3 +202,4 @@ if __name__ == '__main__':
     root.title('stuff')
     game = Game(root)
     game.mainloop()
+    print("yay")
