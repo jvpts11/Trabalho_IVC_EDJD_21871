@@ -182,7 +182,7 @@ class Game(tk.Frame):
             self.ball.speed = None
             self.lives -= 1
             if self.lives < 0:
-                self.draw_text(300, 200, 'You Lose!!! Game Over!')
+                self.draw_text(300, 200, 'You Lose!')
             else:
                 self.after(1000, self.setup_game)
         else:
@@ -199,6 +199,6 @@ class Game(tk.Frame):
 
 if __name__ == '__main__':
     root = tk.Tk()
-    root.title('Hello, Jarvis!')
+    root.title('stuff')
     game = Game(root)
     game.mainloop()
