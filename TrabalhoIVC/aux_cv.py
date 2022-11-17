@@ -1,5 +1,6 @@
 import cv2
 
+
 def cv_setup(game):
     cv_init(game)
     cv_update(game)
@@ -16,8 +17,10 @@ def cv_update(game):
         cap.open(-1)
     ret, image = cap.read()
     image = image[:, ::-1, :]
-    cv_process(image)
-    cv_output(image)
+
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    cv_process(hsv)
+    cv_output(hsv)
     # game.paddle.move(-1)
     game.after(1, cv_update, game)
 
