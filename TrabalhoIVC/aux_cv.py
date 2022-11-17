@@ -29,6 +29,7 @@ def cv_update(game):
 def cv_process(image):
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     mask = cv2.inRange(hsv,color_lower_limit,color_upper_limit )
+    image.shape[1]/2
     cv2.imshow("Processed", mask)
     pass
 
