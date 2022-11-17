@@ -13,9 +13,9 @@ def cv_init(game):
 def cv_update(game):
     cap = game.cap
     if not cap.isOpened():
-        cap.open(-1)
+        cap.open(1)
     ret, image = cap.read()
-    image = image[:, ::-1, :]
+    image = image[:, ::1, :]
     cv_process(image)
     cv_output(image)
     # game.paddle.move(-1)
