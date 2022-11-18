@@ -53,8 +53,3 @@ def get_image_half_size(image):
     half_size = image.shape[1] / 2
     return half_size
 
-def cv_output(image):
-    cv2.imshow("Original", image)
-    # rest of output rendering
-    cv2.waitKey(1)
-
