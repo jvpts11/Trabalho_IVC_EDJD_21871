@@ -2,13 +2,20 @@ import cv2
 import yolov5 as yolo
 import numpy as np
 
+
 def yolo_init():
     model = yolo.load('../yolov5n.pt')
     print(model.names)
-    model.conf = 0.30
+    model.conf = 0.23
     return model
 
 
+def haar_cascades_init():
+    cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')
+    return cascade
+
+
+cascade = haar_cascades_init()
 model = yolo_init()
 
 
@@ -38,9 +45,18 @@ def cv_update(game):
 def cv_process(image,game):
     image_copy = image.copy() #cópia da imagem original para não haver erros
     half_size_image = get_image_half_size(image)
-    yolo_image, x_pos = yolo_approach(image_copy)
+    #result_image, x_pos = yolo_approach(image_copy)
+    result_image, x_pos = viola_jones(image_copy)
+    check = check_is_growing(x_pos,half_size_image)
+    if x_pos is not 0:
+        if check is True:
+            game.paddle.move(-10)
+        if check is False:
+            game.paddle.move(10)
+    else:
+        pass
 
-    cv2.imshow("Original", yolo_image)
+    cv2.imshow("Original", result_image)
     pass
 
 def yolo_approach(image):
@@ -63,6 +79,22 @@ def yolo_approach(image):
             text_format = "{}:{:.2f}".format(result.names[box_class], conf)
             cv2.putText(img=image,text=text_format,org=np.array(np.round((float(box[0]), float(box[1] - 1))), dtype=int),fontFace=cv2.FONT_HERSHEY_SIMPLEX,fontScale=0.5,color=box_color,thickness=1)
             return image, x_pos
+
+def viola_jones(image):
+    gray_image = convert_to_gray(image)
+    eyes = cascade.detectMultiScale(gray_image,1.3,5)
+    try:
+        for (x, y, w, h) in eyes:
+            cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 1)
+        return image, x
+    except:
+        pass
+    finally:
+        return image, 0
+
+def convert_to_gray(image_name):
+    grayImage = cv2.cvtColor(image_name,cv2.COLOR_BGR2GRAY)
+    return grayImage
 
 def convert_to_rgb(image_name):
     rgbImage = cv2.cvtColor(image_name, cv2.COLOR_BGR2RGB)
