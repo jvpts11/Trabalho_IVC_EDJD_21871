@@ -83,14 +83,10 @@ def yolo_approach(image):
 def viola_jones(image):
     gray_image = convert_to_gray(image)
     eyes = cascade.detectMultiScale(gray_image,1.3,5)
-    try:
-        for (x, y, w, h) in eyes:
-            cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 1)
-        return image, x
-    except:
-        pass
-    finally:
-        return image, 0
+    x = 0
+    for (x, y, w, h) in eyes:
+        cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 1)
+    return image, x
 
 def convert_to_gray(image_name):
     grayImage = cv2.cvtColor(image_name,cv2.COLOR_BGR2GRAY)
